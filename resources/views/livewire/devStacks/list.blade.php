@@ -1,54 +1,57 @@
 <?php
 
-use App\Models\Chirp;
+use App\Models\DevStack;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\On;
 use Livewire\Volt\Component;
 
 new class extends Component {
-    public Collection $chirps;
+    public Collection $devStacks;
 
-    public ?Chirp $editing = null;
+    public ?DevStack $editing = null;
 
     public function mount(): void
     {
-        $this->getChirps();
+        $this->getDevStack();
     }
 
-    #[On('chirp-created')]
-    public function getChirps(): void
+    #[On('devStack-created')]
+    public function getDevStack(): void
     {
-        $this->chirps = Chirp::with('user')
+        $this->devStacks = DevStack::with('user')
+            ->where('user_id', auth()->id())
             ->latest()
             ->get();
+
     }
 
-    public function edit(Chirp $chirp): void
+    public function edit(DevStack $devStack): void
     {
-        $this->editing = $chirp;
-        $this->getChirps();
+        $this->editing = $devStack;
+        $this->getDevStack();
     }
 
-    #[On('chirp-edit-canceled')]
-    #[On('chirp-updated')]
+    #[On('devStack-edit-canceled')]
+    #[On('devStack-updated')]
     public function disableEditing(): void
     {
         $this->editing = null;
-        $this->getChirps();
+        $this->getDevStack();
     }
 
-    public function delete(Chirp $chirp): void
+    public function delete(DevStack $devStack): void
     {
-        $this->authorize('delete', $chirp);
-        $chirp->delete();
-        $this->getChirps();
+        $this->authorize('delete', $devStack);
+        // $DevStack->delete();
+        DevStack::delete_DevStack($devStack);
+        $this->getDevStack();
     }
 }; ?>
 
 <div>
     <div class="mt-6 bg-white shadow-sm rounded-lg divide-y">
-        @foreach ($chirps as $chirp)
-            <div class="p-6 flex space-x-2" wire:key="{{ $chirp->id }}">
+        @foreach ($devStacks as $devStack)
+            <div class="p-6 flex space-x-2" wire:key="{{ $devStack->id }}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600 -scale-x-100" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -57,17 +60,17 @@ new class extends Component {
                 <div class="flex-1">
                     <div class="flex justify-between items-center">
                         <div>
-                            <span class="text-gray-800">{{ $chirp->user->name }}</span>
+                            <span class="text-gray-800">{{ $devStack->user->name }}</span>
                             <small
-                                class="ml-2 text-sm text-gray-600">{{ $chirp->created_at->format('j M Y, g:i a') }}</small>
-                            @unless ($chirp->created_at->eq($chirp->updated_at))
+                                class="ml-2 text-sm text-gray-600">{{ $devStack->created_at->format('j M Y, g:i a') }}</small>
+                            @unless ($devStack->created_at->eq($devStack->updated_at))
                                 <small class="text-sm text-gray-600"> &middot; {{ __('edited') }}</small>
                             @endunless
                         </div>
-                        @if ($chirp->user->is(auth()->user()))
+                        @if ($devStack->user->is(auth()->user()))
                             <x-dropdown>
                                 <x-slot name="trigger">
-                                    <button>
+                                    <button type="button">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400"
                                             viewBox="0 0 20 20" fill="currentColor">
                                             <path
@@ -76,21 +79,22 @@ new class extends Component {
                                     </button>
                                 </x-slot>
                                 <x-slot name="content">
-                                    <x-dropdown-link wire:click="edit({{ $chirp->id }})">
-                                        {{ __('Edit') }}
+                                    <x-dropdown-link wire:click="edit({{ $devStack->id }})">
+                                        {{ __('수정') }}
                                     </x-dropdown-link>
-                                    <x-dropdown-link wire:click="delete({{ $chirp->id }})"
-                                        wire:confirm="Are you sure to delete this chirp?">
-                                        {{ __('Delete') }}
+                                    <x-dropdown-link wire:click="delete({{ $devStack->id }})"
+                                        wire:confirm="삭제하시겠습니까?">
+                                        {{ __('삭제') }}
                                     </x-dropdown-link>
                                 </x-slot>
                             </x-dropdown>
                         @endif
                     </div>
-                    @if ($chirp->is($editing))
-                        <livewire:chirps.edit :chirp="$chirp" :key="$chirp->id" />
+                    @if ($devStack->is($editing))
+                    <livewire:devStacks.edit :devStack="$devStack" :key="$devStack->id" />
                     @else
-                        <p class="mt-4 text-lg text-gray-900">{{ $chirp->message }}</p>
+                        {{-- <livewire:devStacks.edit :chirp="$chirp" :key="$chirp->id" /> --}}
+                        <p class="mt-4 text-lg text-gray-900">{{ $devStack->memo }}</p>
                     @endif
                 </div>
             </div>

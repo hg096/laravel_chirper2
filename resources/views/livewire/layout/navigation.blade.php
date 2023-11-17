@@ -12,7 +12,6 @@ new class extends Component
     public function logout(Logout $logout): void
     {
         $logout();
-
         $this->redirect('/', navigate: true);
     }
 }; ?>
@@ -36,6 +35,9 @@ new class extends Component
                     </x-nav-link>
                     <x-nav-link :href="route('chirps')" :active="request()->routeIs('chirps')" wire:navigate>
                         {{ __('Chirps') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('devStack')" :active="request()->routeIs('devStack')" wire:navigate>
+                        {{ __('개발 기술') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -90,6 +92,9 @@ new class extends Component
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('chirps')" :active="request()->routeIs('chirps')" wire:navigate>
                 {{ __('Chirps') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('devStack')" :active="request()->routeIs('devStack')" wire:navigate>
+                {{ __('개발 기술') }}
             </x-responsive-nav-link>
         </div>
 

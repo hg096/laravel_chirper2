@@ -11,18 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $tableName = 'chirps';
+
+        $tableName = 'dev_stacks';
 
         // Check if the table already exists
-        if (!Schema::hasTable($tableName)) {
+        // if (!Schema::hasTable($tableName)) {
             // If not, create the table
             Schema::create($tableName, function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-                $table->string('message');
+                $table->string('skill');
+                $table->string('company');
+                $table->string('location');
+                $table->string('location2');
+                $table->string('category');
+                $table->text('memo');
                 $table->timestamps();
             });
-        }
+        // }
+
     }
 
     /**
@@ -30,6 +37,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('chirps');
+        Schema::dropIfExists('dev_stacks');
     }
 };

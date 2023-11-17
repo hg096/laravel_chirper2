@@ -18,11 +18,8 @@ new class extends Component {
     public function update(): void
     {
         $this->authorize('update', $this->chirp);
-
         $validated = $this->validate();
-
         $this->chirp->update($validated);
-
         $this->dispatch('chirp-updated');
     }
 

@@ -12,6 +12,8 @@ class Chirp extends Model
 {
     use HasFactory;
 
+    protected $table = "chirps";
+
     protected $fillable = [
         'message',
     ];
