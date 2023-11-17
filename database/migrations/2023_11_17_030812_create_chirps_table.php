@@ -11,10 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('chirps', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+        $tableName = 'chirps';
+
+        // Check if the table already exists
+        if (!Schema::hasTable($tableName)) {
+            // If not, create the table
+            Schema::create($tableName, function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+                $table->string('message');
+                $table->timestamps();
+            });
+        }
     }
 
     /**
