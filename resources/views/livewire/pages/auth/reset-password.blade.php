@@ -10,7 +10,8 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use Livewire\Volt\Component;
 
-new #[Layout('layouts.guest')] class extends Component
+// new #[Layout('layouts.guest')] class extends Component
+new #[Layout('layouts.app')] class extends Component
 {
     #[Locked]
     public string $token = '';
@@ -69,7 +70,12 @@ new #[Layout('layouts.guest')] class extends Component
     }
 }; ?>
 
-<div>
+@section('TITLE')
+  비밀번호 재설정
+@stop
+
+<div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
+    <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
     <form wire:submit="resetPassword">
         <!-- Email Address -->
         <div>
@@ -102,4 +108,5 @@ new #[Layout('layouts.guest')] class extends Component
             </x-primary-button>
         </div>
     </form>
+</div>
 </div>

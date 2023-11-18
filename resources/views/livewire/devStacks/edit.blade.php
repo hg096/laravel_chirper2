@@ -119,10 +119,6 @@ new class extends Component {
         </div>
 
 
-
-
-
-
         <x-primary-button class="mt-4">{{ __('저장') }}</x-primary-button>
         <button class="mt-4" wire:click.prevent="cancel">취소</button>
     </form>

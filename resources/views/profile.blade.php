@@ -1,3 +1,7 @@
+@section('TITLE')
+  프로필 확인
+@stop
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">

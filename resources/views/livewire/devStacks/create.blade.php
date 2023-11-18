@@ -5,6 +5,7 @@ use Livewire\Attributes\Rule;
 use Livewire\Volt\Component;
 
 new class extends Component {
+
     //  필수 코드
     #[Rule('required|string|max:255')]
     public string $skill = '';
